@@ -12,26 +12,15 @@ def read_input_lines():
 
 def main():
   lines = read_input_lines()
-  L = sorted(set(list(map(int, lines[0].split(',')))))
+  L = list(map(int, lines[0].split(',')))
+
+  unique_nums = sorted(set(L))
   
-  print("p1: ", sum(L))
+  print("p1: ", sum(unique_nums))
+  print("p2: ", sum(unique_nums[:20]))
 
-  sm = 0
-  for i in range(20):
-    sm += L[i]
-  print("p2: ", sm)
-
-  L = sorted(list(map(int, lines[0].split(','))))
-  prev, cnt, mx = -1, 0, 0
-  for l in L:
-    if l == prev:
-      cnt += 1
-      if cnt > mx:
-        mx = cnt
-    else:
-      cnt = 0
-    prev = l
-  print("p3: ", mx + 1)
+  freq = Counter(L)
+  print("p3: ", max(freq.values()))
 
 
 if __name__ == "__main__":
