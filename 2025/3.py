@@ -13,7 +13,7 @@ def read_input_lines():
 def main():
   lines = read_input_lines()
   L = sorted(set(list(map(int, lines[0].split(',')))))
-
+  
   print("p1: ", sum(L))
 
   sm = 0
@@ -31,7 +31,7 @@ def main():
     else:
       cnt = 0
     prev = l
-  print("p2: ", mx + 1)
+  print("p3: ", mx + 1)
 
 
 if __name__ == "__main__":
