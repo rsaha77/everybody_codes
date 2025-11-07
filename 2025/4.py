@@ -28,9 +28,8 @@ def solve3(fname):
     a, b = [int(x) for x in s.split('|')]
     rot = rot * (prev/a)
     prev = b
-  print("p3: ", math.floor(100 * rot * (int(lines[-2].split('|')[1]) / int(lines[-1]))))
+  print("p3: ", math.floor(100 * rot * (int(lines[].split('|')[1]) / int(lines[-1]))))
     
-
 
 def main():
   solve1("in1.txt")
