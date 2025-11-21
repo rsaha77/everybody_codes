@@ -1,4 +1,5 @@
 import sys
+import time
 from copy import deepcopy
 from pathlib import Path
 
@@ -46,23 +47,27 @@ def solve3(fname):
   R, C = len(G),len(G[0])
   burnt = set()
   for _ in range(3):
-    comps = []
+    best_size, best_seen = 0, set()
     for r in range(R):
       for c in range(C):
         if (r,c) not in burnt:
           seen = set()
           dfs(r,c,R,C,G,seen,burnt)
-          comps.append((len(seen),seen))
-    comps.sort(reverse=True)
-    best_cnt, best_seen, = comps[0]
+          if len(seen) > best_size:
+            best_size = len(seen)
+            best_seen = seen
     for r,c in best_seen:
       burnt.add((r,c))
   return len(burnt)
 
+
 def main():
   solvers = [solve1, solve2, solve3]
   for i, solve in enumerate(solvers, 1):
-    print(f"p{i}:", solve(f"in{i}.txt"))
+    start = time.time()
+    ans = solve(f"in{i}.txt")
+    elapsed = time.time() - start
+    print(f"p{i}: {ans} ({elapsed:.3f}s)")
 
 
 if __name__ == '__main__':
