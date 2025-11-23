@@ -9,18 +9,6 @@ def read_lines(fn):
 
 HV_DIR = [[-1, 0], [0, 1], [1, 0], [0, -1]]
 
-dir_map = {
-  '^': (-1, 0),
-  '>': (0, 1),
-  'v': (1, 0),
-  '<': (0, -1)
-}
-
-turns = {
-  'R': {'>': 'v', 'v': '<', '<': '^', '^': '>'},
-  'L': {'v': '>', '>': '^', '^': '<', '<': 'v'}
-}
-
 def bfs(sr, sc, er, ec, G, R, C):
   q = deque([(0, sr, sc)])
   vis = set()
@@ -38,14 +26,14 @@ def bfs(sr, sc, er, ec, G, R, C):
   return float('inf')
 
 
-def move(curr_drc, r,c,R,C,G,drc,ln):
-  new_drc = turns[drc][curr_drc]
-  dr, dc = dir_map[new_drc]
+def move(dr_idx, r,c,R,C,G,drc,ln):
+  dr_idx = (dr_idx + 1) % 4 if drc == 'R' else (dr_idx + 3) % 4
+  dr, dc = HV_DIR[dr_idx]
   for _ in range(ln):
     r += dr
     c += dc
     G[r][c] = '#'
-  return new_drc, r, c
+  return dr_idx, r, c
 
 
 def solve1(fname, N=100):
@@ -54,13 +42,12 @@ def solve1(fname, N=100):
   G = [list('.' * C) for _ in range(R)]
   sr = sc = N // 2
   G[sr][sc] = 'S'
-  curr_drc = '^'
+  dr_idx = 0
   r, c = sr, sc
   for x in L:
     drc, ln = x[0], int(x[1:])
-    curr_drc, r, c = move(curr_drc, r,c,R,C,G,drc,ln)
+    dr_idx, r, c = move(dr_idx, r,c,R,C,G,drc,ln)
   G[r][c] = 'E'
-
   return bfs(sr, sc, r, c, G, R, C) # same cost of each path, no need dijkstra
 
 
